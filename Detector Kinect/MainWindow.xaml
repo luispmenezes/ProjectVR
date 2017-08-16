@@ -1,0 +1,201 @@
+﻿<Window x:Class="Microsoft.Samples.Kinect.DepthBasics.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Width="958" Height="711" Closing="OnWindowClosing" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <LinearGradientBrush x:Key="CheckedBlue" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#FF285AB3" Offset="0" />
+            <GradientStop Color="#FF4184EC" Offset="0.5" />
+            <GradientStop Color="#FF558BED" Offset="0.5" />
+            <GradientStop Color="#FF7DACF0" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="CheckedOrange" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#FFCA6A13" Offset="0" />
+            <GradientStop Color="#FFF67D0C" Offset="0.2" />
+            <GradientStop Color="#FFFE7F0C" Offset="0.2" />
+            <GradientStop Color="#FFFA8E12" Offset="0.5" />
+            <GradientStop Color="#FFFF981D" Offset="0.5" />
+            <GradientStop Color="#FFFCBC5A" Offset="1" />
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="CheckedOrangeBorder" Color="#FF8E4A1B" />
+        <SolidColorBrush x:Key="CheckedBlueBorder" Color="#FF143874" />
+        <Style x:Key="OrangeSwitchStyle" TargetType="{x:Type CheckBox}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="OnChecking">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="53" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="OnUnchecking">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <DockPanel x:Name="dockPanel">
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" RecognizesAccessKey="True" VerticalAlignment="Center" />
+                            <Grid>
+                                <Border x:Name="BackgroundBorder" BorderBrush="#FF939393" BorderThickness="1" CornerRadius="3" Height="27" Width="94">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#FFB5B5B5" Offset="0" />
+                                            <GradientStop Color="#FFDEDEDE" Offset="0.1" />
+                                            <GradientStop Color="#FFEEEEEE" Offset="0.5" />
+                                            <GradientStop Color="#FFFAFAFA" Offset="0.5" />
+                                            <GradientStop Color="#FFFEFEFE" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse x:Name="Off" Width="14" Height="14" Stroke="#FF7A7A7A" StrokeThickness="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <Line x:Name="On" X1="0" Y1="0" X2="0" Y2="14" Stroke="#FF7A7A7A" StrokeThickness="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                                <Border BorderBrush="#FF939393" HorizontalAlignment="Left" x:Name="slider" Width="41" Height="27" BorderThickness="1" CornerRadius="3" RenderTransformOrigin="0.5,0.5" Margin="0">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            <SkewTransform AngleX="0" AngleY="0" />
+                                            <RotateTransform Angle="0" />
+                                            <TranslateTransform X="0" Y="0" />
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <GradientStop Color="#FFF0F0F0" Offset="0" />
+                                            <GradientStop Color="#FFCDCDCD" Offset="0.1" />
+                                            <GradientStop Color="#FFFBFBFB" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                            </Grid>
+                        </DockPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnUnchecking}" x:Name="OnUnchecking_BeginStoryboard" />
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource OnChecking}" x:Name="OnChecking_BeginStoryboard" />
+                                </Trigger.EnterActions>
+                                <Setter TargetName="On" Property="Stroke" Value="White" />
+                                <Setter TargetName="Off" Property="Stroke" Value="White" />
+                                <!-- Change Orange or Blue color here -->
+                                <Setter TargetName="BackgroundBorder" Property="Background" Value="{StaticResource CheckedBlue}" />
+                                <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="{StaticResource CheckedBlueBorder}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <!-- ToDo: Add Style for Isenabled == False -->
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border BorderBrush="#00bcf2" BorderThickness="1" >
+        <Grid Margin="-0.8,0.2,1.2,0" Height="671" VerticalAlignment="Top">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="123*"/>
+                <ColumnDefinition Width="auto" MinWidth="397.6" />
+            </Grid.ColumnDefinitions>
+
+            <Image Source="Images\Status.png" Stretch="None" HorizontalAlignment="Left"  Grid.Column="1" Width="50" RenderTransformOrigin="0.692,0.124" Height="85" VerticalAlignment="Top" Margin="0,29,0,0" Grid.RowSpan="2"/>
+            <TextBlock x:Name="title" HorizontalAlignment="Left" Margin="65,29,0,28.6" VerticalAlignment="Center" FontSize="25" Grid.Column="1" Grid.ColumnSpan="2" Width="421" Height="32"  ><Run Text="Kinect"/><Run Text=" Ob"/><Run Text="je"/><Run Text="ct Detection"/></TextBlock>
+            <Rectangle Fill="#666" Grid.Row="1" Margin="15,0.4,6.6,175.4" Grid.ColumnSpan="2" />
+            <TextBlock x:Name="txtError" Grid.Row="1" Text="No Kinect Found" Visibility="Collapsed" Foreground="#ccc" FontSize="21" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Height="0" Margin="247,241.4,245,241.8" Width="0"/>
+
+            <Viewbox Margin="15,0.4,6.6,0" Grid.Row="1" Stretch="Uniform" x:Name="outputViewbox"  Grid.ColumnSpan="2" Height="417" VerticalAlignment="Top">
+                <Image Name="outImg" Width="640" Height="480" RenderTransformOrigin="0.5,0.5" />
+            </Viewbox>
+
+            <Image Name="colorImg" Width="160" Height="120" Grid.Row="1" Stretch="Uniform" RenderTransformOrigin="0.5,0.5" Margin="0,2.4,9,0" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" />
+
+            <StackPanel  Margin="0,0.4,9.2,7.6" Width="378" Background="#f0f0f0" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1" >
+                <TextBlock Text="Settings"  Padding="10" Background="#ccc" />
+                <TextBlock Text="Min Distance" Padding="10"/>
+                <StackPanel  Orientation="Horizontal">
+                    <Slider Width="334"  Minimum="300" Value="600"  Maximum="900" TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Margin="5"  x:Name="sliderMin" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=sliderMin}" VerticalAlignment="Center" RenderTransformOrigin="1.535,0.412" />
+                </StackPanel>
+
+                <TextBlock Text="Max Distance" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="334" Value="900" Maximum="6000" Margin="5" x:Name="sliderMax" Padding="10" Minimum="900"/>
+                    <TextBlock Text="{Binding Value, ElementName=sliderMax}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock Text="Min Obj Size" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="334" Minimum="1" Value="10" Maximum="50" Margin="5" x:Name="sliderMinSize"  TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=sliderMinSize}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock Text="Max Obj Size" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="334" Minimum="1" Value="110" Maximum="500" Margin="10" x:Name="sliderMaxSize"  TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=sliderMaxSize}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock Text="Rendering Settings"  Padding="15" Background="#ccc" />
+
+                <TextBlock Text="Render Scale" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="334" Minimum="-10" Value="1" Maximum="10" Margin="5" x:Name="renderScale"  TickFrequency="0.1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=renderScale}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock Text="Offset X" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="334
+                            " Minimum="-200" Value="0" Maximum="200" Margin="5" x:Name="offsetX"  TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=offsetX}" VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock Text="Offset Y" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="334" Minimum="-200" Value="0" Maximum="200" Margin="5" x:Name="offsetY"  TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=offsetY}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0 10 0 0"/>
+            </StackPanel>
+            <CheckBox x:Name="dataTrans" Content="" Grid.Column="2" Style="{DynamicResource OrangeSwitchStyle}" HorizontalAlignment="Left" Margin="270.4,34,0,0" VerticalAlignment="Top"/>
+            <Label Content="Data transmission :" Grid.Column="2" HorizontalAlignment="Left" Height="27" Margin="131.4,34,0,0" VerticalAlignment="Top" Width="112"/>
+            <StackPanel Margin="15,394.4,7.6,7.6" Grid.Row="1" Background="#f0f0f0" Grid.ColumnSpan="2">
+                <TextBlock Text="Region of Interest"  Padding="10" Background="#ccc" Margin="0,0,-0.6,0" />
+                <TextBlock Text="Horizontal Boundaries (Min/Max)" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="230" Minimum="0" Value="0" Maximum="512" Margin="5" x:Name="roiXMin"  TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=roiXMin}" VerticalAlignment="Center" />
+                    <Slider Width="230" Minimum="0" Value="512" Maximum="512" Margin="5" x:Name="roiXMax"  TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=roiXMax}" VerticalAlignment="Center" />
+                </StackPanel>
+                <TextBlock Text="Vertical Boundaries (Min/Max)" Padding="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="230" Minimum="0" Value="0" Maximum="424" Margin="5" x:Name="roiYMin"  TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=roiYMin}" VerticalAlignment="Center" />
+                    <Slider Width="230" Minimum="0" Value="424" Maximum="424" Margin="5" x:Name="roiYMax"  TickFrequency="1" IsSnapToTickEnabled="True" Interval="1" Padding="10"/>
+                    <TextBlock Text="{Binding Value, ElementName=roiYMax}" VerticalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+
+</Window>

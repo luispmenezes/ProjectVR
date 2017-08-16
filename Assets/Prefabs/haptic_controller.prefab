@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &124988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 404136}
+  - 114: {fileID: 11469394}
+  - 114: {fileID: 11408486}
+  - 114: {fileID: 11494650}
+  - 114: {fileID: 11468056}
+  m_Layer: 0
+  m_Name: haptic_controller
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &404136
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124988}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11408486
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7dc0398c1f5cab459df8c8dfd85d703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HapticMode: 
+  ModeIndex: 1
+  TouchableFace: front
+  myHapticCamera: {fileID: 0}
+  workSpaceObj: {fileID: 0}
+  hapticCursor: {fileID: 0}
+  myWorkSpacePosition:
+  - 0
+  - 7.5
+  - 0
+  myWorkSpaceSize:
+  - 60
+  - 15
+  - 60
+  maxPenetration: 0
+  block: {fileID: 134260, guid: d295d4322d79d574f855072dcb55ed01, type: 2}
+--- !u!114 &11468056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba949135bec396408eb8e03a0a81d60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 
+  effect_index: 1
+  gain: .100000001
+  magnitude: .400000006
+  duration: 0
+  frequency: 0
+  positionEffect:
+  - 0
+  - 0
+  - 0
+  directionEffect:
+  - 0
+  - 0
+  - 0
+--- !u!114 &11469394
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3cd66fb7d2485e4ba45cf0aa0cc07ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myHapticClassScript: {fileID: 11408486}
+--- !u!114 &11494650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe4022347755cd46abf0d6955c28b31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 
+  effect_index: 0
+  gain: 0
+  magnitude: .150000006
+  duration: 0
+  frequency: 0
+  positionEffect:
+  - 0
+  - 0
+  - 0
+  directionEffect:
+  - 0
+  - -1
+  - 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 124988}
+  m_IsPrefabParent: 1
