@@ -1,4 +1,4 @@
-![Alt text](/logo.png?raw=true)
+![Alt text](/_readmeassets_/logo.png?raw=true)
 
 # Project VR #
 
